@@ -98,12 +98,15 @@ class TestLogisticModel(unittest.TestCase):
 
     def test_convergence_rate(self):
         # shows that IRLS converges faster than one-order method
-        X, y = make_classification(n_samples=20, random_state=0)
-        lr1 = LogisticRegression(random_state=0, max_iter=3,
-                             solver='liblinear')
+        iris = load_iris()
+        X, y = make_classification(n_samples=100, n_features=4, n_classes=2, random_state=0)
+        lr1 = LogisticRegression(random_state=0, fit_intercept=False, C=1500,
+                             solver='sag')
         lr1.fit(X, y)
-        clf = Logistic(max_iter=3)
+        clf = Logistic(max_iter=100)
         clf.fit(X, y)
+        print(lr1.coef_)
+        print(clf.w)
         self.assertTrue(lr1.score(X, y) < clf.score(X, y))
         pass
 

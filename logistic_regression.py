@@ -19,7 +19,7 @@ class Logistic:
         # put your training code here
         mu = 1 / (1 + np.exp(-x_train @ self.w))
         R = np.diag(mu * (1 - mu))
-        self.w += np.linalg.inv(x_train.T @ R @ x_train) @ x_train.T @ (y_train - mu)
+        self.w += np.linalg.lstsq(x_train.T @ R @ x_train, x_train.T @ (y_train - mu))[0]
         pass
 
     def train(self, x_train, y_train):
@@ -32,7 +32,7 @@ class Logistic:
         """
         self.w = np.zeros(x_train.shape[1])
         for _ in range(self.max_iter):
-            last_w = self.w
+            last_w = self.w.copy()
             self._iteration_step(x_train, y_train)
             if np.linalg.norm(self.w - last_w) < self.tol:
                 break
