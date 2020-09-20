@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Ridge
 from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model._logistic import _logistic_loss
 from sklearn.datasets import load_iris, make_classification
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.utils._testing import assert_array_almost_equal
@@ -96,18 +97,16 @@ class TestLogisticModel(unittest.TestCase):
         pred = iris.target_names[probabilities.argmax(axis=1)]
         self.assertTrue(np.mean(pred == target) > .95)
 
-    def test_convergence_rate(self):
-        # shows that IRLS converges faster than one-order method
-        iris = load_iris()
-        X, y = make_classification(n_samples=100, n_features=4, n_classes=2, random_state=0)
-        lr1 = LogisticRegression(random_state=0, fit_intercept=False, C=1500,
-                             solver='sag')
+    def test_log_loss(self):
+        n_features = 4
+        X, y = make_classification(n_samples=100, n_features=n_features, random_state=0)
+        lr1 = LogisticRegression(random_state=0, fit_intercept=False, C=1500)
         lr1.fit(X, y)
         clf = Logistic(max_iter=100)
         clf.fit(X, y)
-        print(lr1.coef_)
-        print(clf.w)
-        self.assertTrue(lr1.score(X, y) < clf.score(X, y))
+        lr1_loss = _logistic_loss(lr1.coef_.reshape(n_features), X, 2 * y - 1, 0)
+        clf_loss = clf.log_loss(X, y)
+        self.assertTrue(np.abs(lr1_loss - clf_loss) < 1e-5)
         pass
 
 if __name__ == '__main__':

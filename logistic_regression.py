@@ -55,6 +55,14 @@ class Logistic:
         """
         return np.argmax(self.predict_proba(x_test), axis=1)
 
+    def log_loss(self, x_train, y_train):
+        """Negative of Likelihood
+        """
+        y_expand = np.vstack([1 - y_train, y_train])
+        predict_prob = self.predict_proba(x_train)
+        predict_prob += self.tol * (predict_prob == 0).astype(np.float)
+        return -np.sum(y_expand.T * np.log(predict_prob))
+
     def predict_proba(self, x_data):
         """Predict class labels for samples in x_test
         Inputs:
