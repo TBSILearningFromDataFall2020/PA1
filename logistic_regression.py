@@ -15,9 +15,11 @@ class Logistic:
     def get_params(self, deep=False):
         return {'tol': self.tol, 'max_iter': self.max_iter}
 
-    def _iteration_step(self):
+    def _iteration_step(self, x_train, y_train):
         # put your training code here
-
+        mu = 1 / (1 + np.exp(-x_train @ self.w))
+        R = np.diag(mu * (1 - mu))
+        self.w += np.linalg.inv(x_train.T @ R @ x_train) @ x_train.T @ (y_train - mu)
         pass
 
     def train(self, x_train, y_train):
@@ -31,7 +33,7 @@ class Logistic:
         self.w = np.zeros(x_train.shape[1])
         for _ in range(self.max_iter):
             last_w = self.w
-            self._iteration_step()
+            self._iteration_step(x_train, y_train)
             if np.linalg.norm(self.w - last_w) < self.tol:
                 break
         return
@@ -63,5 +65,6 @@ class Logistic:
         """
         pred = np.zeros([x_data.shape[0], 2])
         # put your predicting code here      
-
+        pred[:, 0] = 1 / (1 + np.exp(- x_data @ self.w))
+        pred[:, 1] = 1 - pred[:, 0]
         return pred
