@@ -65,6 +65,6 @@ class Logistic:
         """
         pred = np.zeros([x_data.shape[0], 2])
         # put your predicting code here      
-        pred[:, 0] = 1 / (1 + np.exp(- x_data @ self.w))
-        pred[:, 1] = 1 - pred[:, 0]
+        pred[:, 1] = 1 / (1 + np.exp(- x_data @ self.w))
+        pred[:, 0] = 1 - pred[:, 1]
         return pred

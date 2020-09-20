@@ -65,7 +65,7 @@ class TestLogisticModel(unittest.TestCase):
         target = (iris.target > 0).astype(np.intp)
         # target = np.array(["setosa", "not-setosa"])[target]
 
-        clf = Logistic(max_iter=2000)
+        clf = Logistic()
         clf.fit(iris.data, target)
 
         self.assertEqual(clf.w.shape, (iris.data.shape[1],))
