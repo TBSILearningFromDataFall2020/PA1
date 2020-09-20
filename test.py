@@ -1,9 +1,10 @@
 import unittest
 import numpy as np
 
-from sklearn.linear_model.base import LinearRegression
-from sklearn.linear_model.ridge import Ridge
-from sklearn.datasets import load_iris
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import load_iris, make_classification
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.utils._testing import assert_array_almost_equal
 from sklearn.utils._testing import assert_array_equal
@@ -58,8 +59,8 @@ class TestRidgeModel(unittest.TestCase):
         assert_array_almost_equal(ridge.w, ols.coef_)
 
 class TestLogisticModel(unittest.TestCase):
-    def test_multinomial_binary(self):
-        # Test multinomial LR on a binary problem.
+    def test_binary(self):
+        # Test logistic regression on a binary problem.
         iris = load_iris()
         target = (iris.target > 0).astype(np.intp)
         # target = np.array(["setosa", "not-setosa"])[target]
@@ -95,12 +96,15 @@ class TestLogisticModel(unittest.TestCase):
         pred = iris.target_names[probabilities.argmax(axis=1)]
         self.assertTrue(np.mean(pred == target) > .95)
 
-    def test_converange_rate(self):
+    def test_convergence_rate(self):
         # shows that IRLS converges faster than one-order method
         X, y = make_classification(n_samples=20, random_state=0)
-        lr1 = LogisticRegression(random_state=0, dual=True, max_iter=1, tol=1e-15,
-                             solver='liblinear', multi_class='ovr')
+        lr1 = LogisticRegression(random_state=0, max_iter=3,
+                             solver='liblinear')
         lr1.fit(X, y)
+        clf = Logistic(max_iter=3)
+        clf.fit(X, y)
+        self.assertTrue(lr1.score(X, y) < clf.score(X, y))
         pass
 
 if __name__ == '__main__':

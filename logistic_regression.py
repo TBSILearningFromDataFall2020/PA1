@@ -12,6 +12,9 @@ class Logistic:
         self.tol = tol
         self.max_iter = max_iter
         pass
+    def get_params(self, deep=False):
+        return {'tol': self.tol, 'max_iter': self.max_iter}
+
     def _iteration_step(self):
         # put your training code here
 
@@ -48,10 +51,17 @@ class Logistic:
         Outputs:
         pred: np.array, shape (num_samples, )
         """
-        return self.predict_proba(x_test) > 0.5
+        return np.argmax(self.predict_proba(x_test), axis=1)
 
     def predict_proba(self, x_data):
-        pred = np.zeros(x_data.shape[0])
+        """Predict class labels for samples in x_test
+        Inputs:
+        x_data: np.array, shape (num_samples, num_features)
+        Outputs:
+        pred: np.array, shape (num_samples, n_classes),
+              the probability of the sample for each class in the model
+        """
+        pred = np.zeros([x_data.shape[0], 2])
         # put your predicting code here      
 
         return pred
