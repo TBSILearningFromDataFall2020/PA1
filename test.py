@@ -62,13 +62,12 @@ class TestLogisticModel(unittest.TestCase):
         # Test multinomial LR on a binary problem.
         iris = load_iris()
         target = (iris.target > 0).astype(np.intp)
-        target = np.array(["setosa", "not-setosa"])[target]
+        # target = np.array(["setosa", "not-setosa"])[target]
 
         clf = Logistic(max_iter=2000)
         clf.fit(iris.data, target)
 
         self.assertEqual(clf.w.shape, (iris.data.shape[1],))
-        self.assertEqual(clf.intercept_.shape, (1,))
         self.assertTrue(clf.score(iris.data, target) > 0.9)
 
     def test_logistic_iris(self):
@@ -95,6 +94,7 @@ class TestLogisticModel(unittest.TestCase):
 
         pred = iris.target_names[probabilities.argmax(axis=1)]
         self.assertTrue(np.mean(pred == target) > .95)
+
     def test_converange_rate(self):
         # shows that IRLS converges faster than one-order method
         X, y = make_classification(n_samples=20, random_state=0)
@@ -102,5 +102,6 @@ class TestLogisticModel(unittest.TestCase):
                              solver='liblinear', multi_class='ovr')
         lr1.fit(X, y)
         pass
+
 if __name__ == '__main__':
     unittest.main()
