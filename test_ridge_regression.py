@@ -16,7 +16,7 @@ class TestRidgeModel(unittest.TestCase):
         y = rng.randn(n_samples)
         X = rng.randn(n_samples, n_features)
 
-        ridge = Ridge(alpha=alpha)
+        ridge = Ridge(alpha=alpha, fit_intercept=False)
         custom_implemented_ridge = RidgeRegression(alpha=alpha)
         ridge.fit(X, y)
         custom_implemented_ridge.fit(X, y)
