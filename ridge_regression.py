@@ -2,17 +2,25 @@ import numpy as np
 from sklearn.metrics import r2_score
 
 class RidgeRegression:
-
+    """
+    Parameters
+    ----------
+    alpha: regularization strength
+    """
     def __init__(self, alpha=1.0):
         self.alpha = alpha
         pass
 
     def train(self, x_train, y_train):
         """Receive the input training data, then learn the model.
-        Inputs:
+
+        Parameters
+        ----------
         x_train: np.array, shape (num_samples, num_features)
         y_train: np.array, shape (num_samples, )
-        Outputs：
+
+        Returns
+        -------
         None
         """
         self.w = np.zeros(x_train.shape[1])
@@ -28,9 +36,13 @@ class RidgeRegression:
 
     def predict(self, x_test):
         """Do prediction via the learned model.
-        Inputs:
+
+        Parameters
+        ----------
         x_test: np.array, shape (num_samples, num_features)
-        Outputs:
+
+        Returns
+        -------
         pred: np.array, shape (num_samples, )
         """
 
