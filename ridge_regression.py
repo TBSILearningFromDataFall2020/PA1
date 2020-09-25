@@ -23,7 +23,7 @@ class RidgeRegression:
         -------
         None
         """
-        self.w = np.zeros(x_train.shape[1])
+        self.theta = np.zeros(x_train.shape[1])
         # put your training code here
         return
     def fit(self, x_train, y_train):
@@ -46,6 +46,6 @@ class RidgeRegression:
         pred: np.array, shape (num_samples, )
         """
 
-        pred = x_test.dot(self.w)
+        pred = x_test.dot(self.theta)
 
         return pred

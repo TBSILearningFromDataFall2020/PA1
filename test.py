@@ -28,7 +28,7 @@ class TestRidgeModel(unittest.TestCase):
         custom_implemented_ridge = RidgeRegression(alpha=alpha)
         ridge.fit(X, y)
         custom_implemented_ridge.fit(X, y)
-        self.assertEqual(custom_implemented_ridge.w.shape, (X.shape[1], ))
+        self.assertEqual(custom_implemented_ridge.theta.shape, (X.shape[1], ))
         self.assertAlmostEqual(ridge.score(X, y), custom_implemented_ridge.score(X, y))
 
     def test_ridge_singular(self):
@@ -57,7 +57,7 @@ class TestRidgeModel(unittest.TestCase):
 
         ridge.fit(X, y)
         ols.fit(X, y)
-        assert_array_almost_equal(ridge.w, ols.coef_)
+        assert_array_almost_equal(ridge.theta, ols.coef_)
 
 class TestLogisticModel(unittest.TestCase):
     def test_binary(self):
@@ -69,7 +69,7 @@ class TestLogisticModel(unittest.TestCase):
         clf = Logistic()
         clf.fit(iris.data, target)
 
-        self.assertEqual(clf.w.shape, (iris.data.shape[1],))
+        self.assertEqual(clf.theta.shape, (iris.data.shape[1],))
         self.assertTrue(clf.score(iris.data, target) > 0.9)
 
     def test_logistic_iris(self):

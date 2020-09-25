@@ -33,11 +33,11 @@ class Logistic:
         -------
         None
         """
-        self.w = np.zeros(x_train.shape[1])
+        self.theta = np.zeros(x_train.shape[1])
         for _ in range(self.max_iter):
-            last_w = self.w.copy()
+            last_theta = self.theta.copy()
             self._iteration_step(x_train, y_train)
-            if np.linalg.norm(self.w - last_w) < self.tol:
+            if np.linalg.norm(self.theta - last_theta) < self.tol:
                 break
         return
 
