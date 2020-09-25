@@ -6,8 +6,8 @@
 * Run `python3 test.py` to verify your implementation
 ## Grading details
 For each question, there are 3 tests `test.py`:
-* Pass all 3 test: 5 score
-* Pass 2 test: 4 score
+* Pass all 3 tests: 5 score
+* Pass 2 tests: 4 score
 * Pass 1 test: 3 score
 * Pass 0 test: 2 score
 ## Tips to run the test
