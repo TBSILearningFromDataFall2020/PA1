@@ -15,7 +15,8 @@ from logistic_regression import Logistic
 
 class TestRidgeModel(unittest.TestCase):
     def test_ridge(self):
-        # Ridge regression convergence test, compare to the true value
+        # Ridge regression convergence test
+        # compare to the implementation of sklearn
         rng = np.random.RandomState(0)
         alpha = 1.0
 
@@ -45,7 +46,8 @@ class TestRidgeModel(unittest.TestCase):
         self.assertGreater(ridge.score(X, y), 0.9)
 
     def test_ridge_vs_lstsq(self):
-        # On alpha=0., Ridge and ordinary linear regression yield the same solution.
+        # On alpha=0.,
+        # Ridge and ordinary linear regression should yield the same solution.
         rng = np.random.RandomState(0)
         # we need more samples than features
         n_samples, n_features = 5, 4
@@ -64,7 +66,6 @@ class TestLogisticModel(unittest.TestCase):
         # Test logistic regression on a binary problem.
         iris = load_iris()
         target = (iris.target > 0).astype(np.intp)
-        # target = np.array(["setosa", "not-setosa"])[target]
 
         clf = Logistic()
         clf.fit(iris.data, target)
@@ -73,14 +74,15 @@ class TestLogisticModel(unittest.TestCase):
         self.assertTrue(clf.score(iris.data, target) > 0.9)
 
     def test_logistic_iris(self):
-        # Test logistic regression with the iris dataset
+        # Test logistic regression on a multi-class problem
+        # using the iris dataset
         iris = load_iris()
 
         n_samples, n_features = iris.data.shape
 
         target = iris.target_names[iris.target]
 
-        # Test that OvR solvers handle
+        # Test that OvR (one versus rest) solvers handle
         # multiclass data correctly and give good accuracy
         # score (>0.95) for the training data.
         clf = OneVsRestClassifier(Logistic())
@@ -98,6 +100,8 @@ class TestLogisticModel(unittest.TestCase):
         self.assertTrue(np.mean(pred == target) > .95)
 
     def test_log_loss(self):
+        # the loss function of LogisticRegression
+        # compared with the implementation of sklearn
         n_features = 4
         X, y = make_classification(n_samples=100, n_features=n_features, random_state=0)
         lr1 = LogisticRegression(random_state=0, fit_intercept=False, C=1500)
