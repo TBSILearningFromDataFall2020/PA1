@@ -19,7 +19,7 @@ class Logistic:
 
     def _iteration_step(self, x_train, y_train):
         # put your training code here
-        mu = 1 / (1 + np.exp(-x_train @ self.w))
+        mu = 1 / (1 + np.exp(-x_train @ self.theta))
         R = np.diag(mu * (1 - mu))
         self.theta += np.linalg.lstsq(x_train.T @ R @ x_train, x_train.T @ (y_train - mu))[0]              
         pass
