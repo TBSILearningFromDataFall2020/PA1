@@ -25,6 +25,10 @@ class RidgeRegression:
         """
         self.theta = np.zeros(x_train.shape[1])
         # put your training code here
+        n = x_train.shape[1]
+        A = x_train.T @ x_train + self.alpha * np.identity(n)
+        b = x_train.T @ y_train
+        self.theta = np.linalg.lstsq(A, b, rcond=-1)[0]        
         return
     def fit(self, x_train, y_train):
         # alias for train

@@ -19,6 +19,9 @@ class Logistic:
 
     def _iteration_step(self, x_train, y_train):
         # put your training code here
+        mu = 1 / (1 + np.exp(-x_train @ self.w))
+        R = np.diag(mu * (1 - mu))
+        self.theta += np.linalg.lstsq(x_train.T @ R @ x_train, x_train.T @ (y_train - mu))[0]              
         pass
 
     def train(self, x_train, y_train):
@@ -84,4 +87,6 @@ class Logistic:
         """
         pred = np.zeros([x_data.shape[0], 2])
         # put your predicting code here
+        pred[:, 1] = 1 / (1 + np.exp(- x_data @ self.w))
+        pred[:, 0] = 1 - pred[:, 1]        
         return pred
